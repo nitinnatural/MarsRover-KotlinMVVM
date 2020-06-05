@@ -1,4 +1,4 @@
-package com.ni3x.marsrover.home
+package com.ni3x.marsrover
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

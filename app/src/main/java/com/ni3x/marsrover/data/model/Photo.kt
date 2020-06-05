@@ -1,22 +1,10 @@
 package com.ni3x.marsrover.data.model
 
-import java.util.HashMap
+import com.squareup.moshi.Json
 
-class Photo {
-
-    var id: Int? = null
-    var sol: Int? = null
-    var camera: Camera? = null
-    var imgSrc: String? = null
-    var earthDate: String? = null
-    var rover: Rover? = null
-    private val additionalProperties: MutableMap<String, Any> = HashMap()
-
-    fun getAdditionalProperties(): Map<String, Any> {
-        return additionalProperties
-    }
-
-    fun setAdditionalProperty(name: String, value: Any) {
-        additionalProperties[name] = value
-    }
-}
+data class Photo(val id: Int,
+                 val sol: Int,
+                 val camera: Camera,
+                 @Json(name = "imgSrc") val imgSrcUrl: String,
+                 val earthDate: String,
+                 val rover: Rover)
