@@ -1,7 +1,7 @@
-package com.ni3x.marsrover.data.model
+data class Camera(
 
-data class Camera(var id: Int,
-                  var name: String,
-                  val roverId: Int,
-                  val fullName: String
+        val id: Int,
+        val name: String,
+        val rover_id: Int,
+        val full_name: String
 )

@@ -1,13 +1,12 @@
-package com.ni3x.marsrover.data.model
+data class Rover(
 
-import java.util.ArrayList
-
-class Rover(
-        var id: Int,
-        var name: String,
-        val landingDate: String,
-        val maxSol: Int,
-        val maxDate: String,
-        val totalPhotos: Int,
-        var cameras: List<Camera_> = ArrayList()
+        val id: Int,
+        val name: String,
+        val landing_date: String,
+        val launch_date: String,
+        val status: String,
+        val max_sol: Int,
+        val max_date: String,
+        val total_photos: Int,
+        val cameras: List<Cameras>
 )

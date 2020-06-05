@@ -1,18 +1,18 @@
 package com.ni3x.marsrover.home.adapter
 
+import Photos
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.ni3x.marsrover.data.model.Photo
 
-class MarsPhotoAdapter(): ListAdapter<Photo, ViewHolder>(MarsPhotoDiffCallback()) {
+class MarsPhotoAdapter(): ListAdapter<Photos, ViewHolder>(MarsPhotoDiffCallback()) {
 
-    class MarsPhotoDiffCallback: DiffUtil.ItemCallback<Photo>() {
-        override fun areItemsTheSame(oldItem: Photo, newItem: Photo): Boolean {
+    class MarsPhotoDiffCallback: DiffUtil.ItemCallback<Photos>() {
+        override fun areItemsTheSame(oldItem: Photos, newItem: Photos): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Photo, newItem: Photo): Boolean {
+        override fun areContentsTheSame(oldItem: Photos, newItem: Photos): Boolean {
             return oldItem == newItem
         }
     }

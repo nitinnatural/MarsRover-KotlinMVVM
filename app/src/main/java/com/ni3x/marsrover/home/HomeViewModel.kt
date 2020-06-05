@@ -1,41 +1,53 @@
 package com.ni3x.marsrover.home
 
+import Photos
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ni3x.marsrover.common.Constant
 import com.ni3x.marsrover.data.MarsRoverRepository
-import com.ni3x.marsrover.data.model.Dataset
-import com.ni3x.marsrover.data.model.Photo
-import com.ni3x.marsrover.data.network.ApiEndpointInterface
 import com.ni3x.marsrover.data.network.MarsApi
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class HomeViewModel(repository: MarsRoverRepository): ViewModel() {
 
     // adding  a backing property to photos so that it cannot be modified from views
-    private val _photos = MutableLiveData<List<Photo>>()
-    val photos: LiveData<List<Photo>>
+    private val _photos = MutableLiveData<List<Photos>>()
+    val photos: LiveData<List<Photos>>
         get() = _photos
+
+    private var viewModelJob = Job()
+    private val coroutineScope = CoroutineScope(
+            viewModelJob + Dispatchers.Main)
 
     init {
         _photos.value = listOf()
+        getPhotoByCuriosity()
     }
 
-
-    private fun getPhotoByCuriosity(){
-        MarsApi.retrofitService
-                .getPhotoByCuriosity("", 1, "")
-                .enqueue(object : Callback<Dataset>{
-                    override fun onFailure(call: Call<Dataset>, t: Throwable) {
-                        // send msg error happend
-                    }
-                    override fun onResponse(call: Call<Dataset>, response: Response<Dataset>) {
-                        _photos.value = response.body()?.photos
-                    }
-                })
+    private fun getPhotoByCuriosity() {
+        coroutineScope.launch {
+            var fetchCurousityDeferred = MarsApi.retrofitService
+                    .fetchPhotoOfCuriosity("2012-08-08", 1, Constant.API_KEY)
+            try {
+                var result = fetchCurousityDeferred.await()
+                if (result.photos.size > 0) {
+                    _photos.value = result.photos
+                } else {
+                    Log.i("HomeViewModel", "photo Count is zero")
+                }
+            } catch (e: Exception) {
+                Log.i("HomeViewModel", e.localizedMessage)
+            }
+        }
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
 }
