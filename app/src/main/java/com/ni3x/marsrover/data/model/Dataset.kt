@@ -1,11 +1,11 @@
-package com.ni3x.marsrover.model
+package com.ni3x.marsrover.data.model
 
+import java.util.ArrayList
 import java.util.HashMap
 
-class Camera_ {
+class Dataset {
 
-    var name: String? = null
-    var fullName: String? = null
+    var photos: List<Photo> = ArrayList()
     private val additionalProperties: MutableMap<String, Any> = HashMap()
 
     fun getAdditionalProperties(): Map<String, Any> {

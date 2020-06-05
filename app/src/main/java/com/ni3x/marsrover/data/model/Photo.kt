@@ -1,13 +1,15 @@
-package com.ni3x.marsrover.model
+package com.ni3x.marsrover.data.model
 
 import java.util.HashMap
 
-class Camera {
+class Photo {
 
     var id: Int? = null
-    var name: String? = null
-    val roverId: Int? = null
-    val fullName: String? = null
+    var sol: Int? = null
+    var camera: Camera? = null
+    var imgSrc: String? = null
+    var earthDate: String? = null
+    var rover: Rover? = null
     private val additionalProperties: MutableMap<String, Any> = HashMap()
 
     fun getAdditionalProperties(): Map<String, Any> {

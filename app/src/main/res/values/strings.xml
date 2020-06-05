@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MarsRover</string>
+    <string name="date_text">23 June 2020</string>
 </resources>
