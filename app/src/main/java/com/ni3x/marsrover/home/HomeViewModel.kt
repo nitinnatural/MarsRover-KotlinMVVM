@@ -1,12 +1,12 @@
 package com.ni3x.marsrover.home
 
-import Photos
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ni3x.marsrover.common.Constant
 import com.ni3x.marsrover.data.MarsRoverRepository
+import com.ni3x.marsrover.data.model.Photos
 import com.ni3x.marsrover.data.network.MarsApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +19,10 @@ class HomeViewModel(repository: MarsRoverRepository): ViewModel() {
     private val _photos = MutableLiveData<List<Photos>>()
     val photos: LiveData<List<Photos>>
         get() = _photos
+
+    private val _navigateToPhotoDetail = MutableLiveData<Photos>()
+    val navigateToPhotoDetail: LiveData<Photos>
+        get() = _navigateToPhotoDetail
 
     private var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(
@@ -49,5 +53,13 @@ class HomeViewModel(repository: MarsRoverRepository): ViewModel() {
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+    }
+
+    fun displayPhotoDetail(photos: Photos) {
+        _navigateToPhotoDetail.value = photos
+    }
+
+    fun displayPhotoDetailComplete() {
+        _navigateToPhotoDetail.value = null
     }
 }

@@ -9,10 +9,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.ni3x.marsrover.R
 import com.ni3x.marsrover.data.MarsRoverRepository
 import com.ni3x.marsrover.databinding.FragmentHomeBinding
 import com.ni3x.marsrover.home.adapter.MarsPhotoAdapter
+import com.ni3x.marsrover.home.adapter.MarsPhotoAdapter.OnClickListener
 import com.ni3x.marsrover.view_model_factory.HomeViewModelFactory
 
 class HomeFragment: Fragment() {
@@ -28,12 +30,25 @@ class HomeFragment: Fragment() {
         viewModelFactory = HomeViewModelFactory(MarsRoverRepository())
         viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
 
-        adapter = MarsPhotoAdapter()
+        adapter = MarsPhotoAdapter(OnClickListener {
+            // TODO: 06-06-2020 move to detail screen.
+            // add to navigation.
+            viewModel.displayPhotoDetail(it)
+        })
+
+
         binding.rvPhoto.adapter = adapter
 
         viewModel.photos.observe(viewLifecycleOwner, Observer {
             Toast.makeText(activity, "photo list updated", Toast.LENGTH_SHORT).show()
             it?.let { adapter.submitList(it) }
+        })
+
+        viewModel.navigateToPhotoDetail.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToPhotoViewFragment(it))
+                viewModel.displayPhotoDetailComplete()
+            }
         })
 
         return binding.root

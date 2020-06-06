@@ -1,3 +1,9 @@
+package com.ni3x.marsrover.data.model
+
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class Rover(
 
         val id: Int,
@@ -9,4 +15,4 @@ data class Rover(
         val max_date: String,
         val total_photos: Int,
         val cameras: List<Cameras>
-)
+): Parcelable

@@ -5,5 +5,17 @@
     <fragment
             android:id="@+id/homeFragment"
             android:name="com.ni3x.marsrover.home.HomeFragment"
-            android:label="HomeFragment" />
+            android:label="HomeFragment" >
+        <action
+                android:id="@+id/action_homeFragment_to_photoViewFragment"
+                app:destination="@id/photoViewFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/photoViewFragment"
+            android:name="com.ni3x.marsrover.detail.PhotoViewFragment"
+            android:label="PhotoViewFragment" >
+        <argument
+                android:name="args_photo"
+                app:argType="com.ni3x.marsrover.data.model.Photos" />
+    </fragment>
 </navigation>

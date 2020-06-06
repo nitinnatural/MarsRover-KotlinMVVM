@@ -1,6 +1,6 @@
 package com.ni3x.marsrover.home.adapter
 
-import Photos
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ni3x.marsrover.R
 import com.ni3x.marsrover.R.layout
+import com.ni3x.marsrover.data.model.Photos
 
 class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 

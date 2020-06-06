@@ -1,6 +1,7 @@
 package com.ni3x.marsrover.data.network
 
-import ResultSet
+
+import com.ni3x.marsrover.data.model.ResultSet
 import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Query
