@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -18,9 +19,9 @@ import com.ni3x.marsrover.view_model_factory.HomeViewModelFactory
 
 class HomeFragment: Fragment() {
 
-    lateinit var binding: FragmentHomeBinding
+    private lateinit var binding: FragmentHomeBinding
 
-    lateinit var viewModel: HomeViewModel
+    private lateinit var viewModel: HomeViewModel
     lateinit var viewModelFactory: HomeViewModelFactory
     lateinit var adapter: MarsPhotoAdapter
 
@@ -32,13 +33,17 @@ class HomeFragment: Fragment() {
         adapter = MarsPhotoAdapter(OnClickListener {
             viewModel.displayPhotoDetail(it)
         })
-
+        bindLiveDataObservers()
 
         binding.rvPhoto.adapter = adapter
+        return binding.root
+    }
 
+    fun bindLiveDataObservers() {
         viewModel.photos.observe(viewLifecycleOwner, Observer {
             it?.let { adapter.submitList(it) }
         })
+
 
         viewModel.navigateToPhotoDetail.observe(viewLifecycleOwner, Observer {
             if (it != null) {
@@ -47,6 +52,18 @@ class HomeFragment: Fragment() {
             }
         })
 
-        return binding.root
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+            }
+        })
+
+        viewModel.msg.observe(viewLifecycleOwner, Observer {
+            if (it.isNotEmpty()){
+                Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

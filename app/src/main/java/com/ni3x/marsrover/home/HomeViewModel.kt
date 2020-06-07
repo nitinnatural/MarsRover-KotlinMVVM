@@ -13,6 +13,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
+enum class MarsApiStatus { LOADING, ERROR, DONE }
+
 class HomeViewModel(repository: MarsRoverRepository): ViewModel() {
 
     // adding  a backing property to photos so that it cannot be modified from views
@@ -24,28 +26,41 @@ class HomeViewModel(repository: MarsRoverRepository): ViewModel() {
     val navigateToPhotoDetail: LiveData<Photos>
         get() = _navigateToPhotoDetail
 
+    private val _msg = MutableLiveData<String>()
+    val msg:LiveData<String>
+        get() = _msg
+
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean>
+        get() = _isLoading
+
+
     private var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(
             viewModelJob + Dispatchers.Main)
 
     init {
         _photos.value = listOf()
+        _msg.value = ""
         getPhotoByCuriosity()
     }
 
     private fun getPhotoByCuriosity() {
         coroutineScope.launch {
+            _isLoading.value = true
             var fetchCurousityDeferred = MarsApi.retrofitService
                     .fetchPhotoOfCuriosity("2012-08-08", 1, Constant.API_KEY)
             try {
                 var result = fetchCurousityDeferred.await()
-                if (result.photos.size > 0) {
+                _isLoading.value = false
+                if (result.photos.isNotEmpty()) {
                     _photos.value = result.photos
                 } else {
-                    Log.i("HomeViewModel", "photo Count is zero")
+                    _msg.value = "No photos available"
                 }
             } catch (e: Exception) {
-                Log.i("HomeViewModel", e.localizedMessage)
+                _isLoading.value = false
+                _msg.value = "Error fetching photos"
             }
         }
     }
