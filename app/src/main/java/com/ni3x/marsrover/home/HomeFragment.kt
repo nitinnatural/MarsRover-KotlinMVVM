@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -38,7 +37,6 @@ class HomeFragment: Fragment() {
         binding.rvPhoto.adapter = adapter
 
         viewModel.photos.observe(viewLifecycleOwner, Observer {
-            Toast.makeText(activity, "photo list updated", Toast.LENGTH_SHORT).show()
             it?.let { adapter.submitList(it) }
         })
 
