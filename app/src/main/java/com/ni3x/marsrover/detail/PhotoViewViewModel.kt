@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ni3x.marsrover.data.model.Photos
 
-class PhotoViewViewModel(val photos: Photos): ViewModel() {
+class PhotoViewViewModel(private val photos: Photos): ViewModel() {
 
     private val _photo = MutableLiveData<Photos>()
     val photo: LiveData<Photos>

@@ -31,8 +31,6 @@ class HomeFragment: Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
 
         adapter = MarsPhotoAdapter(OnClickListener {
-            // TODO: 06-06-2020 move to detail screen.
-            // add to navigation.
             viewModel.displayPhotoDetail(it)
         })
 
