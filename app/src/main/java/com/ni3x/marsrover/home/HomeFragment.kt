@@ -61,7 +61,7 @@ class HomeFragment: Fragment() {
         })
 
         viewModel.msg.observe(viewLifecycleOwner, Observer {
-            if (it.isNotEmpty()){
+            if (it.isNotEmpty()) {
                 Toast.makeText(activity, it, Toast.LENGTH_SHORT).show()
             }
         })
